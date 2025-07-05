@@ -20,12 +20,12 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # Dataset path
 data_dir = "/kaggle/input/breakhis/BreaKHis_v1/BreaKHis_v1/histology_slides/breast"
 
-# Magnification (using 200X)
-magnification = "200X"
+# Magnification (only using 100X)
+magnification = "100X"
 
 # Image size for models
 image_sizes = {
-    "deit_b": 224,
+    "swin_b": 224,
 }
 
 class BreaKHisDataset(Dataset):
@@ -85,16 +85,16 @@ def get_transform(img_size):
     ])
 
 # Model definition
-def create_deit_model(name):
+def create_swin_model(name):
     model = timm.create_model(name, pretrained=True, num_classes=2)
     model.head = nn.Sequential(
-        nn.Dropout(0.5), 
+        nn.Dropout(0.7), #prove 0.7 droput
         model.head
     )
     return model
 
 models = {
-    "deit_b": create_deit_model("deit_base_distilled_patch16_224"),
+    "swin_b": create_swin_model("swin_base_patch4_window7_224"),
 }
 
 # Initialize dataset for 40X magnification and model
@@ -137,7 +137,7 @@ for model_name, model in models.items():
     for fold, (train_idx, val_idx) in enumerate(kf.split(range(len(all_labels)), all_labels)):
         print(f"\nFold {fold + 1} / {k_folds}")
 
-        # Load dataset 
+        # Load dataset for 40X magnification only
         train_dataset = Subset(datasets[model_name], [i for i in train_idx if i < len(datasets[model_name])])
         val_dataset = Subset(datasets[model_name], [i for i in val_idx if i < len(datasets[model_name])])
 
@@ -219,7 +219,7 @@ plt.ylabel('Loss')
 plt.legend()
 plt.show()
 
-# After all folds are done, print confusion matrix and ROC curve
+# print confusion matrix and ROC curve
 cm = confusion_matrix(all_labels_list, all_preds)
 print(f"Confusion Matrix:\n{cm}")
 
@@ -231,7 +231,7 @@ plt.plot(fpr, tpr, color="blue", lw=2, label=f"AUC = {roc_auc:.4f}")
 plt.plot([0, 1], [0, 1], color="gray", linestyle="--")
 plt.xlabel("False Positive Rate")
 plt.ylabel("True Positive Rate")
-plt.title(f"ROC Curve - {model_name}")
+plt.title(f"ROC Curve - {model_name} - 100X Magnification")
 plt.legend()
 plt.show()
 
