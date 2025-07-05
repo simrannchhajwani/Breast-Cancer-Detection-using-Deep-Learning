@@ -1,7 +1,7 @@
 # Breast-Cancer-Detection-using-Deep-Learning
 Developed a deep learning model for classifying breast cancer, achieving 99.45% accuracy on histopathology images. This project uses a Swin V2 Transformer with CLAHE-enhanced data from the BreaKHis dataset to deliver state-of-the-art diagnostic performance for benign and malignant tissue detection.
 
-![image](https://github.com/user-attachments/assets/7c38ab01-cac5-4859-b89a-2a4b3e0c09ab)
+
 
 
 
@@ -35,6 +35,8 @@ This repository contains the official implementation for the paper/project title
 Breast cancer remains a significant cause of mortality among women worldwide, making early and precise diagnosis critical for improving patient outcomes. This project explores the application of Vision Transformers, specifically the Swin Transformer V2 architecture, for the automated classification of breast cancer histopathological images.
 
 We utilize the **BreaKHis dataset** and enhance it using **Contrast Limited Adaptive Histogram Equalization (CLAHE)** to improve image quality and normalize variations. Our comparative analysis evaluates the performance of Swin V2 variants (Tiny, Small, and Base) across four different magnification levels (40X, 100X, 200X, 400X), demonstrating the model's robustness and superior performance in this critical diagnostic task.
+
+![image](https://github.com/user-attachments/assets/7c38ab01-cac5-4859-b89a-2a4b3e0c09ab)
 
 ---
 
@@ -98,67 +100,6 @@ A detailed breakdown of results per magnification level can be found in the asso
 - NumPy
 - Matplotlib
 - Pandas
-
----
-
-## Installation & Setup
-
-To replicate this project, follow these steps:
-
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-username/your-repo-name.git
-    cd your-repo-name
-    ```
-
-2.  **Create a virtual environment (recommended):**
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
-    ```
-
-3.  **Install the required dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-4.  **Download the Dataset:**
-    Download the BreaKHis dataset and place it in a `data/` directory. Ensure the folder structure matches the configuration specified in the data loader script.
-
----
-
-## Usage
-
-### 1. Preprocessing the Data
-
-Run the preprocessing script to apply CLAHE to the raw images.
-```bash
-python preprocess.py --data_dir data/BreaKHis_v1 --output_dir data/BreaKHis_CLAHE
-```
-
-### 2. Training a Model
-
-To train a model, use the main training script with the desired arguments.
-```bash
-python train.py \
-    --model_name swin_v2_small_window16_256 \
-    --data_dir data/BreaKHis_CLAHE \
-    --magnification 40 \
-    --epochs 50 \
-    --batch_size 32 \
-    --learning_rate 1e-4
-```
-
-### 3. Evaluating a Model
-
-To evaluate a trained model checkpoint on the test set:
-```bash
-python evaluate.py \
-    --model_name swin_v2_small_window16_256 \
-    --checkpoint_path checkpoints/best_model_40X.pth \
-    --data_dir data/BreaKHis_CLAHE \
-    --magnification 40
-```
 
 ---
 
