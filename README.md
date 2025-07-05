@@ -82,7 +82,7 @@ The Swin V2 Small variant demonstrated the most robust and superior performance 
 ### Key Performance Highlights (Swin V2 Small)
 - **Overall Accuracy:** **99.45%**
 - **Area Under the Curve (AUC):** **99.95%**
-- **Precision:** 99.64%**
+- **Precision:** **99.64%**
 - **Recall:** **99.60%**
 - **F1-Score:** **99.56%**
 
